@@ -1,20 +1,41 @@
 ﻿@page "/"
+@using BlazorApp.Shared
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            9am
-        </div>
-        <div class="col-lg">
-            Breakfast
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            10am
-        </div>
-        <div class="col-lg">
-            Building Blocks
-        </div>
-    </div>
-</div>
+<MudThemeProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudText Typo="Typo.h5" Class="ml-3">Child Timetable</MudText>
+        <MudAppBarSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Default" Edge="Edge.End" Link="https://github.com/MrSimonC" />
+    </MudAppBar>
+    <MudMainContent>
+        <MudPaper>
+            <MudContainer MaxWidth="MaxWidth.Small"></MudContainer>
+        </MudPaper>
+        <MudGrid>
+            @foreach (var item in Items)
+            {
+                <MudItem xs="3">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">@item.Time</MudPaper>
+                </MudItem>
+                <MudItem xs="9">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">@item.Description</MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private List<TimetableItem> Items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = new List<TimetableItem>{
+            new TimetableItem { Time = "9am", Description = "Breakfast" },
+            new TimetableItem { Time = "10am", Description = "Building Blocks" },
+            new TimetableItem { Time = "11am", Description = "Walk outside" }
+        };
+    }
+}
