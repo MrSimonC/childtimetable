@@ -14,11 +14,11 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
-app {
+/* app {
     position: relative;
     display: flex;
-    /* flex-direction: column; */
-}
+    flex-direction: column;
+} */
 
 .top-row {
     height: 3.5rem;
@@ -151,9 +151,9 @@ app {
 }
 
 @media (min-width: 768px) {
-    app {
+    /* app {
         flex-direction: row;
-    }
+    } */
 
     .sidebar {
         width: 250px;
