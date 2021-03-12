@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BlazorApp.Shared
+@inject HttpClient Http
 
 <MudThemeProvider />
 
@@ -28,14 +29,22 @@
 </MudLayout>
 
 @code {
-    private List<TimetableItem> Items;
+    private List<TimetableItem> Items = new List<TimetableItem>();
 
     protected override async Task OnInitializedAsync()
     {
-        Items = new List<TimetableItem>{
-            new TimetableItem { Time = "9am", Description = "Breakfast" },
-            new TimetableItem { Time = "10am", Description = "Building Blocks" },
-            new TimetableItem { Time = "11am", Description = "Walk outside" }
-        };
+        try
+        {
+            Items = await Http.GetFromJsonAsync<List<TimetableItem>>("/api/PlayIdeas");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+
+        //Items = new List<TimetableItem>{
+        //    new TimetableItem { Time = "9am", Description = "Breakfast" },
+        //    new TimetableItem { Time = "10am", Description = "Building Blocks" },
+        //    new TimetableItem { Time = "11am", Description = "Walk outside" }
     }
 }
