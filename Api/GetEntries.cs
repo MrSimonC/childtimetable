@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace BlazorApp.Api
     public static class GetEntries
     {
         [FunctionName("GetEntries")]
-        public static async Task<IActionResult> Run(
+        public static async IAsyncEnumerable<TimetableItem> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post",
                 Route = null)]HttpRequest req,
             [CosmosDB(
@@ -27,28 +28,19 @@ namespace BlazorApp.Api
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            //var searchterm = req.Query["searchterm"];
-            //if (string.IsNullOrWhiteSpace(searchterm))
-            //{
-            //    return new NotFoundResult();
-            //}
-
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri("childtimetabledb", "activities");
-
-            //log.LogInformation($"Searching for: {searchterm}");
-
             IDocumentQuery<TimetableItem> query = client.CreateDocumentQuery<TimetableItem>(collectionUri)
                 //.Where(p => p.Description.Contains(searchterm))
                 .AsDocumentQuery();
 
             while (query.HasMoreResults)
             {
-                foreach (TimetableItem result in await query.ExecuteNextAsync())
+                foreach (TimetableItem item in await query.ExecuteNextAsync())
                 {
-                    log.LogInformation(result.Description);
+                    log.LogInformation(item.Name);
+                    yield return item;
                 }
             }
-            return new OkResult();
         }
     }
 }
