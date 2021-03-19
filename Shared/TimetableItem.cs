@@ -8,15 +8,18 @@ namespace BlazorApp.Shared
     public class TimetableItem
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string Id { get; set; } = "";
 
-        [JsonPropertyName("time")]
-        public string Time { get; set; }
+        [JsonPropertyName("age")]
+        public List<int> Age { get; set; } = new List<int>();
 
-        [JsonPropertyName("icon")]
-        public string Icon { get; set; }
+        [JsonPropertyName("bootstrapicon")]
+        public string bootstrapicon { get; set; } = "";
 
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = "";
     }
 }
