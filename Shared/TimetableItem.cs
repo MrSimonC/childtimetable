@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace BlazorApp.Shared
 {
     public class TimetableItem
     {
-        public string Time { get; set; }
-        public string Icon { get; set; }
-        public string Description { get; set; }
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = "";
+
+        [JsonPropertyName("age")]
+        public List<int> Age { get; set; } = new List<int>();
+
+        [JsonPropertyName("bootstrapicon")]
+        public string bootstrapicon { get; set; } = "";
+
+        [JsonPropertyName("description")]
+        public string Description { get; set; } = "";
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = "";
     }
 }
