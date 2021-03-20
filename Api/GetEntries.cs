@@ -1,16 +1,12 @@
 using BlazorApp.Shared;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorApp.Api
 {
@@ -37,6 +33,7 @@ namespace BlazorApp.Api
             {
                 foreach (TimetableItem item in await query.ExecuteNextAsync())
                 {
+
                     log.LogInformation(item.Name);
                     yield return item;
                 }
