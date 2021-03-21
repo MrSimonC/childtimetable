@@ -16,8 +16,8 @@
             <MudContainer MaxWidth="MaxWidth.Small"></MudContainer>
         </MudPaper>
         <MudText Class="pt-2 pl-3 pr-3" Typo="Typo.h6">Daily Child's Timetable Generator</MudText>
-        <MudText Class="pa-2" Typo="Typo.subtitle1">Refresh the page to see a different potential day of actions - to help you entertain your little one. Good luck parent!</MudText>
-        <MudGrid>
+        <MudText Class="pa-3" Typo="Typo.subtitle1">Refresh the page to see a different potential day of actions - to help you entertain your little one. Good luck parent!</MudText>
+        <MudGrid Spacing="0">
             @if (displayEntries == null)
             {
                 <MudItem xs="12">
@@ -29,19 +29,19 @@
                 @foreach (var entry in displayEntries)
                 {
                     <MudItem xs="12">
-                        <MudPaper Class="mud-width-full mx-2 py-1 px-1">
-                            <MudGrid>
+                        <MudPaper Class="py-8 ma-2">
+                            <MudGrid Spacing="0">
                                 <MudItem xs="2">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@entry.Time</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2">@entry.Time</MudPaper>
                                 </MudItem>
                                 <MudItem xs="2">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@entry.Icon" Color="@entry.Color" /></MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2"><MudIcon Icon="@entry.Icon" Color="@entry.Color" /></MudPaper>
                                 </MudItem>
                                 <MudItem xs="3">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@entry.Name</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2">@entry.Name</MudPaper>
                                 </MudItem>
                                 <MudItem xs="5">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@entry.Description</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2">@entry.Description</MudPaper>
                                 </MudItem>
                             </MudGrid>
                         </MudPaper>
