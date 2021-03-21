@@ -13,8 +13,8 @@ namespace BlazorApp.Shared
         [JsonPropertyName("age")]
         public List<int> Age { get; set; } = new List<int>();
 
-        [JsonPropertyName("bootstrapicon")]
-        public string bootstrapicon { get; set; } = "";
+        [JsonPropertyName("icon")]
+        public string Icon { get; set; } = "";
 
         [JsonPropertyName("description")]
         public string Description { get; set; } = "";

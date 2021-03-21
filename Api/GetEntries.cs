@@ -33,7 +33,6 @@ namespace BlazorApp.Api
             {
                 foreach (TimetableItem item in await query.ExecuteNextAsync())
                 {
-
                     log.LogInformation(item.Name);
                     yield return item;
                 }

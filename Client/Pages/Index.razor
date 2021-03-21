@@ -14,20 +14,45 @@
         <MudPaper>
             <MudContainer MaxWidth="MaxWidth.Small"></MudContainer>
         </MudPaper>
+        <MudText Class="pt-2 pl-3 pr-3" Typo="Typo.h6">Daily Child's Timetable Generator</MudText>
+        <MudText Class="pa-2" Typo="Typo.subtitle1">Refresh the page to see a different potential day of actions - to help you entertain your little one. Good luck parent!</MudText>
         <MudGrid>
             @if (items == null)
             {
-                <p><em>Just hold up there - I'm loading...</em></p>
+                <MudItem xs="12">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">Loading...</MudPaper>
+                </MudItem>
             }
             else
             {
-                @foreach (var item in items)
+                @foreach (var time in timeSlots)
                 {
-                    <MudItem xs="3">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">@item.Name</MudPaper>
+                    TimetableItem? activityEntry = null;
+                    if (time == lunch)
+                    {
+                        activityEntry = lunchEntry;
+                    }
+                    else if (time == dinner)
+                    {
+                        activityEntry = dinnerEntry;
+                    }
+                    else
+                    {
+                        activityEntry = GetRandomItemAndDecrement();
+                    }
+                    // update icon to use bootstrap
+                    activityEntry.Icon = $"bi bi-{activityEntry.Icon}";
+                    <MudItem xs="2">
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">@time</MudPaper>
                     </MudItem>
-                    <MudItem xs="9">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">@item.Description</MudPaper>
+                    <MudItem xs="2">
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@activityEntry.Icon" Color="GetRandomColour()" /></MudPaper>
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Name</MudPaper>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Description</MudPaper>
                     </MudItem>
                 }
             }
@@ -37,9 +62,31 @@
 
 @code {
     private List<TimetableItem>? items;
+    private List<string> timeSlots = new List<string> { "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm" };
+    private string lunch = "12pm";
+    private TimetableItem lunchEntry = new TimetableItem
+    {
+        Age = new List<int> { 2, 3, 4, 5 },
+        Icon = "egg-fried",
+        Name = "Lunch Time",
+        Description = "Time to eat lunch"
+    };
+    private string dinner = "6pm";
+    private TimetableItem dinnerEntry = new TimetableItem
+    {
+        Age = new List<int> { 2, 3, 4, 5 },
+        Icon = "egg-fried",
+        Name = "Dinner Time",
+        Description = "Time to eat dinner"
+    };
+
 
     protected override async Task OnInitializedAsync()
     {
+        //#if DEBUG
+        //        await Task.Delay(10000);
+        //#endif
+
         try
         {
             items = await Http.GetFromJsonAsync<List<TimetableItem>>("/api/GetEntries");
@@ -48,5 +95,27 @@
         {
             Console.WriteLine(ex.ToString());
         }
+    }
+
+    public TimetableItem GetRandomItemAndDecrement()
+    {
+        if (items == null || !items.Any())
+        {
+            return new TimetableItem();
+        }
+
+        Random rand = new Random();
+        int toSkip = rand.Next(0, items.Count);
+        var result = items.Skip(toSkip).Take(1).First();
+        items.Remove(result);
+
+        return result;
+    }
+
+    public Color GetRandomColour()
+    {
+        Random rand = new Random();
+        int num = rand.Next(1, 7);
+        return (Color)num;
     }
 }
