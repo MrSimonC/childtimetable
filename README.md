@@ -1,24 +1,16 @@
-# Blazor Starter Application
+# ChildTimetable
 
-This template contains an example [Blazor WebAssembly](https://docs.microsoft.com/aspnet/core/blazor/?view=aspnetcore-3.1#blazor-webassembly) client application, a C# [Azure Functions](https://docs.microsoft.com/azure/azure-functions/functions-overview) and a C# class library with shared code.
+Hosted at <https://childtimetable.co.uk> this child-entertainment idea generator helps parents (like me) set out a schedule to entertain their children on the weekend.
 
-## Getting Started
+*I'm not kidding, I got the idea from a very old, but very useful episode of super-nanny when my children finally "got to me" as we'd just not had time to plan anything to entertain them with one weekend.*
 
-Create a repository from the [GitHub template](https://docs.github.com/en/enterprise/2.22/user/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) and then clone it locally to your machine.
+Hosted 100% for free it uses:
 
-Once you clone the project, open the solution in [Visual Studio Code](https://code.visualstudio.com/) and follow these steps:
+* Domain name from [lcn.com](https://www.lcn.com) (free for a year thanks to an offer they had at time of writing)
+* The truly amazing an free-in-preview [Azure Static Web Apps](https://azure.microsoft.com/en-gb/services/app-service/static/) which host a...
+* [Blazor Web Assembly App](https://devblogs.microsoft.com/aspnet/azure-static-web-apps-with-blazor/)
+* [CosmosDB (Free Tier)](https://azure.microsoft.com/en-gb/services/cosmos-db/)
 
-- In the **API** folder, copy `local.settings.example.json` to `local.settings.json`
-- Press **F5** to launch both the client application and the Functions API app
+Made with nothing but a few hours across a few evenings *(hey, did I mention I have children - therefore no time?)*.
 
-_Note: If you're using the Azure Functions CLI tools, refer to [the documentation](https://docs.microsoft.com/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash) on how to enable CORS._
-
-## Template Structure
-
-- **Client**: The Blazor WebAssembly sample application
-- **API**: A C# Azure Functions API, which the Blazor application will call
-- **Shared**: A C# class library with a shared data model between the Blazor and Functions application
-
-## Deploy to Azure Static Web Apps
-
-This application can be deployed to [Azure Static Web Apps](https://docs.microsoft.com/azure/static-web-apps), to learn how, check out [our quickstart guide](https://aka.ms/blazor-swa/quickstart).
+Finally, there's just something truly magical about adding new CosmosDB entries in VS Code, simply because the Azure CosmosDB extension does such a great job. It's truly an incredible time to be a developer working with Microsoft solutions.
