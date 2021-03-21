@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BlazorApp.Shared
+@using BlazorApp.Client.Models
 @inject HttpClient Http
 
 <MudThemeProvider />
@@ -17,7 +18,7 @@
         <MudText Class="pt-2 pl-3 pr-3" Typo="Typo.h6">Daily Child's Timetable Generator</MudText>
         <MudText Class="pa-2" Typo="Typo.subtitle1">Refresh the page to see a different potential day of actions - to help you entertain your little one. Good luck parent!</MudText>
         <MudGrid>
-            @if (items == null)
+            @if (displayEntries == null)
             {
                 <MudItem xs="12">
                     <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">Loading...</MudPaper>
@@ -25,37 +26,22 @@
             }
             else
             {
-                @foreach (var time in timeSlots)
+                @foreach (var entry in displayEntries)
                 {
-                    TimetableItem? activityEntry = null;
-                    if (time == lunch)
-                    {
-                        activityEntry = lunchEntry;
-                    }
-                    else if (time == dinner)
-                    {
-                        activityEntry = dinnerEntry;
-                    }
-                    else
-                    {
-                        activityEntry = GetRandomItemAndDecrement();
-                    }
-                    // update icon to use bootstrap
-                    activityEntry.Icon = $"bi bi-{activityEntry.Icon}";
                     <MudItem xs="12">
                         <MudPaper Class="mud-width-full mx-2 py-1 px-1">
                             <MudGrid>
                                 <MudItem xs="2">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@time</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@entry.Time</MudPaper>
                                 </MudItem>
                                 <MudItem xs="2">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@activityEntry.Icon" Color="GetRandomColour()" /></MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@entry.Icon" Color="@entry.Color" /></MudPaper>
                                 </MudItem>
                                 <MudItem xs="3">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Name</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@entry.Name</MudPaper>
                                 </MudItem>
                                 <MudItem xs="5">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Description</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@entry.Description</MudPaper>
                                 </MudItem>
                             </MudGrid>
                         </MudPaper>
@@ -67,35 +53,18 @@
 </MudLayout>
 
 @code {
-    private List<TimetableItem>? items;
-    private List<string> timeSlots = new List<string> { "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm" };
-    private string lunch = "12pm";
-    private TimetableItem lunchEntry = new TimetableItem
-    {
-        Age = new List<int> { 2, 3, 4, 5 },
-        Icon = "egg-fried",
-        Name = "Lunch Time",
-        Description = "Time to eat lunch"
-    };
-    private string dinner = "6pm";
-    private TimetableItem dinnerEntry = new TimetableItem
-    {
-        Age = new List<int> { 2, 3, 4, 5 },
-        Icon = "egg-fried",
-        Name = "Dinner Time",
-        Description = "Time to eat dinner"
-    };
-
+    private List<TimetableItemDisplay>? displayEntries;
 
     protected override async Task OnInitializedAsync()
     {
-        //#if DEBUG
-        //        await Task.Delay(10000);
-        //#endif
+#if DEBUG
+        await Task.Delay(10000);
+#endif
 
         try
         {
-            items = await Http.GetFromJsonAsync<List<TimetableItem>>("/api/GetEntries");
+            var entries = await Http.GetFromJsonAsync<List<TimetableItem>>("/api/GetEntries");
+            displayEntries = GenerateDayGrid(entries ?? throw new ArgumentNullException("entries null from api"));
         }
         catch (Exception ex)
         {
@@ -103,22 +72,73 @@
         }
     }
 
-    public TimetableItem GetRandomItemAndDecrement()
+    private List<TimetableItemDisplay> GenerateDayGrid(List<TimetableItem> entries)
     {
-        if (items == null || !items.Any())
+        var results = new List<TimetableItemDisplay>();
+        string lunch = "12pm";
+        string dinner = "6pm";
+        List<string> timeSlots = new List<string> { "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm" };
+
+        @foreach (var time in timeSlots)
+        {
+            TimetableItemDisplay? displayEntry = new TimetableItemDisplay();
+            if (time == lunch)
+            {
+                displayEntry = new TimetableItemDisplay
+                {
+                    Time = lunch,
+                    Age = new List<int> { 2, 3, 4, 5 },
+                    Icon = "egg-fried",
+                    Name = "Lunch Time",
+                    Description = "Time to eat lunch",
+                    Color = GetRandomColour()
+                };
+            }
+            else if (time == dinner)
+            {
+                displayEntry = new TimetableItemDisplay
+                {
+                    Time = dinner,
+                    Age = new List<int> { 2, 3, 4, 5 },
+                    Icon = "egg-fried",
+                    Name = "Dinner Time",
+                    Description = "Time to eat dinner",
+                    Color = GetRandomColour()
+                };
+            }
+            else
+            {
+                TimetableItem activity = GetRandomItemAndDecrement(entries);
+                displayEntry.Name = activity.Name;
+                displayEntry.Description = activity.Description;
+                displayEntry.Icon = activity.Icon;
+                displayEntry.Time = time;
+                displayEntry.Color = GetRandomColour();
+            }
+
+            displayEntry.Icon = $"bi bi-{displayEntry.Icon}"; // update icon to use bootstrap
+
+            results.Add(displayEntry);
+        }
+        return results;
+    }
+
+    private TimetableItem GetRandomItemAndDecrement(List<TimetableItem> entries)
+    {
+        if (entries == null || !entries.Any())
         {
             return new TimetableItem();
         }
 
         Random rand = new Random();
-        int toSkip = rand.Next(0, items.Count);
-        var result = items.Skip(toSkip).Take(1).First();
-        items.Remove(result);
+        int toSkip = rand.Next(0, entries.Count);
+        var result = entries.Skip(toSkip).Take(1).First();
+        entries.Remove(result);
 
         return result;
     }
 
-    public Color GetRandomColour()
+    private Color GetRandomColour()
     {
         Random rand = new Random();
         int num = rand.Next(1, 7);
