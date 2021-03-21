@@ -42,17 +42,23 @@
                     }
                     // update icon to use bootstrap
                     activityEntry.Icon = $"bi bi-{activityEntry.Icon}";
-                    <MudItem xs="2">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">@time</MudPaper>
-                    </MudItem>
-                    <MudItem xs="2">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@activityEntry.Icon" Color="GetRandomColour()" /></MudPaper>
-                    </MudItem>
-                    <MudItem xs="3">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Name</MudPaper>
-                    </MudItem>
-                    <MudItem xs="5">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Description</MudPaper>
+                    <MudItem xs="12">
+                        <MudPaper Class="mud-width-full mx-2 py-1 px-1">
+                            <MudGrid>
+                                <MudItem xs="2">
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@time</MudPaper>
+                                </MudItem>
+                                <MudItem xs="2">
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@activityEntry.Icon" Color="GetRandomColour()" /></MudPaper>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Name</MudPaper>
+                                </MudItem>
+                                <MudItem xs="5">
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8 px-1">@activityEntry.Description</MudPaper>
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
                     </MudItem>
                 }
             }
