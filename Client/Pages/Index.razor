@@ -29,19 +29,19 @@
                 @foreach (var entry in displayEntries)
                 {
                     <MudItem xs="12">
-                        <MudPaper Class="mud-width-full pa-2 mx-2">
+                        <MudPaper Class="py-8 ma-2">
                             <MudGrid Spacing="0">
                                 <MudItem xs="2">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@entry.Time</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2">@entry.Time</MudPaper>
                                 </MudItem>
                                 <MudItem xs="2">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"><MudIcon Icon="@entry.Icon" Color="@entry.Color" /></MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2"><MudIcon Icon="@entry.Icon" Color="@entry.Color" /></MudPaper>
                                 </MudItem>
                                 <MudItem xs="3">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@entry.Name</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2">@entry.Name</MudPaper>
                                 </MudItem>
                                 <MudItem xs="5">
-                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8">@entry.Description</MudPaper>
+                                    <MudPaper Elevation="0" Class="d-flex align-center justify-center px-2">@entry.Description</MudPaper>
                                 </MudItem>
                             </MudGrid>
                         </MudPaper>
