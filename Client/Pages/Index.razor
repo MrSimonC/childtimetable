@@ -57,9 +57,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-#if DEBUG
-        await Task.Delay(10000);
-#endif
+        //#if DEBUG
+        //        await Task.Delay(10000);
+        //#endif
 
         try
         {
@@ -88,7 +88,7 @@
                 {
                     Time = lunch,
                     Age = new List<int> { 2, 3, 4, 5 },
-                    Icon = "egg-fried",
+                    Icon = "fas fa-apple-alt",
                     Name = "Lunch Time",
                     Description = "Time to eat lunch",
                     Color = GetRandomColour()
@@ -100,7 +100,7 @@
                 {
                     Time = dinner,
                     Age = new List<int> { 2, 3, 4, 5 },
-                    Icon = "egg-fried",
+                    Icon = "fas fa-utensils",
                     Name = "Dinner Time",
                     Description = "Time to eat dinner",
                     Color = GetRandomColour()
@@ -115,8 +115,6 @@
                 displayEntry.Time = time;
                 displayEntry.Color = GetRandomColour();
             }
-
-            displayEntry.Icon = $"bi bi-{displayEntry.Icon}"; // update icon to use bootstrap
 
             results.Add(displayEntry);
         }
