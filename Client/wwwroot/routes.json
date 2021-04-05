@@ -1,13 +1,13 @@
 {
   "routes": [
     {
-      "route": "/",
-      "serve": "/index.html",
-      "statusCode": 200
-    },
-    {
       "route": "/login",
       "redirect": "/.auth/login/github"
+    },
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
     }
   ]
 }
